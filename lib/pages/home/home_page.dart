@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
         drawer: DrawerWidget(SelectedCategory: SelectedCategory),
         body: SelectedCategory == null
             ? Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                           ?.copyWith(color: Colors.black),
                     ),
                     const SizedBox(
-                      height: 8,
+                      height: 5,
                     ),
                     Expanded(
                       child: GridView.builder(
@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                                 childAspectRatio: 8 / 9,
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 17,
-                                mainAxisSpacing: 15),
+                                mainAxisSpacing: 11),
                         itemBuilder: (context, index) => GridViewItemWidget(
                           categoryModel: categoriesList[index],
                           index: index,
@@ -114,7 +114,6 @@ class _HomePageState extends State<HomePage> {
   CategoryModel? SelectedCategory;
 
   clicked(CategoryModel categoryModel) {
-    print("hello baby--->> ${categoryModel.title}");
     SelectedCategory = categoryModel;
     setState(() {});
   }
