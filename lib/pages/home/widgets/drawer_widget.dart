@@ -6,7 +6,10 @@ import 'package:news_app/shared_components/theme/color.dart';
 
 class DrawerWidget extends StatelessWidget {
   CategoryModel? SelectedCategory;
-  DrawerWidget({required this.SelectedCategory});
+  Function? onCategoryPressed;
+  Function? onSettingPressed;
+  DrawerWidget({required this.SelectedCategory, required this.onCategoryPressed,required this.onSettingPressed
+  });
   @override
   Widget build(BuildContext context) {
     var mediaquery = MediaQuery.of(context).size;
@@ -36,7 +39,9 @@ class DrawerWidget extends StatelessWidget {
               title: "Categories",
               iconData: Icons.list_alt_outlined,
               onClick: () {
-                // to do call back function
+               if(onCategoryPressed!=null){
+                 onCategoryPressed!();
+               }
               },
             ),
             const SizedBox(
@@ -46,6 +51,9 @@ class DrawerWidget extends StatelessWidget {
               title: "Settings",
               iconData: Icons.settings,
               onClick: () {
+                if(onSettingPressed!=null){
+                  onSettingPressed!();
+                }
                 // to do call back function
               },
             ),
