@@ -63,25 +63,25 @@ class _HomePageState extends State<HomePage> {
               image: AssetImage("assets/images/background_pattern.png"),
               fit: BoxFit.cover)),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: Text(
-              SelectedCategory == null
-                  ? "News App"
-                  : "${SelectedCategory?.title}",
-              style: Theme.of(context).textTheme.bodyMedium),
-        ),
-        drawer: DrawerWidget(
-            SelectedCategory: SelectedCategory,
-            onCategoryPressed: categoryPreseed,
-            onSettingPressed: settingPressed),
-        body: buildBody()
-      ),
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: Text(
+                SelectedCategory == null
+                    ? "News App"
+                    : "${SelectedCategory?.title}",
+                style: Theme.of(context).textTheme.bodyMedium),
+          ),
+          drawer: DrawerWidget(
+              SelectedCategory: SelectedCategory,
+              onCategoryPressed: categoryPreseed,
+              onSettingPressed: settingPressed),
+          body: buildBody()),
     );
   }
 
   CategoryModel? SelectedCategory;
-  CategoryModel Setting =CategoryModel(id: "", title: "Settings", backgroundColor: Colors.cyan, image: "");
+  CategoryModel Setting = CategoryModel(
+      id: "", title: "Settings", backgroundColor: Colors.cyan, image: "");
 
   clicked(CategoryModel categoryModel) {
     SelectedCategory = categoryModel;
@@ -97,10 +97,11 @@ class _HomePageState extends State<HomePage> {
 
   settingPressed() {
     setState(() {
-      SelectedCategory=Setting;
+      SelectedCategory = Setting;
       Navigator.pop(context);
     });
   }
+
   Widget buildBody() {
     if (SelectedCategory == null) {
       return Padding(
@@ -138,12 +139,12 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       );
-    } else if(SelectedCategory==Setting){
+    } else if (SelectedCategory == Setting) {
       return const SettingPage();
-    }else {
-      return CategoryView(SelectedCategory: SelectedCategory!,);
+    } else {
+      return CategoryView(
+        SelectedCategory: SelectedCategory!,
+      );
     }
   }
-
-
 }

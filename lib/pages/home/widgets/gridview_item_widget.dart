@@ -7,7 +7,10 @@ class GridViewItemWidget extends StatelessWidget {
   Function onClicked;
   int index;
 
-  GridViewItemWidget({required this.categoryModel, required this.index,required this.onClicked});
+  GridViewItemWidget(
+      {required this.categoryModel,
+      required this.index,
+      required this.onClicked});
 
   @override
   Widget build(BuildContext context) {

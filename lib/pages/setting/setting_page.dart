@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../provider/setting_provider.dart';
 import '../../shared_components/theme/color.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
 
@@ -14,15 +15,16 @@ class SettingPage extends StatelessWidget {
     var settingsProvider = Provider.of<SettingProvider>(context);
     return Container(
       padding: EdgeInsets.all(15),
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          image: DecorationImage(
-              image: AssetImage("assets/images/background_pattern.png"),
-              fit: BoxFit.cover)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(AppLocalizations.of(context)!.language,style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.black),),
+          Text(
+            AppLocalizations.of(context)!.language,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(color: Colors.black),
+          ),
           const SizedBox(
             height: 15,
           ),
@@ -33,9 +35,11 @@ class SettingPage extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    width: 1.5,
-                      color: primaryColor, style: BorderStyle.solid)),
+                      width: 1.7,
+                      color: primaryColor,
+                      style: BorderStyle.solid)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -43,7 +47,10 @@ class SettingPage extends StatelessWidget {
                     settingsProvider.currentLocal == "en"
                         ? AppLocalizations.of(context)!.languageEnglish
                         : AppLocalizations.of(context)!.languageArabic,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 16),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(fontWeight: FontWeight.w500),
                   ),
                   const Icon(
                     Icons.arrow_drop_down,
@@ -58,6 +65,7 @@ class SettingPage extends StatelessWidget {
       ),
     );
   }
+
   void showBottomLanguageSheet(BuildContext context) {
     showModalBottomSheet(
         context: context, builder: (context) => LanguageWidget());

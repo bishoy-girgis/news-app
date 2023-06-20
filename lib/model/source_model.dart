@@ -11,15 +11,15 @@ class SourceModel {
     this.sources,
   });
 
-  factory SourceModel.fromJson(Map<String, dynamic> json){
+  factory SourceModel.fromJson(Map<String, dynamic> json) {
     return SourceModel(
       status: json["status"],
       code: json["code"] ?? "",
       message: json["message"] ?? "",
-      sources:List<Source>.from(json["sources"].map((e) =>Source.fromJson(e))),
+      sources:
+          List<Source>.from(json["sources"].map((e) => Source.fromJson(e))),
     );
   }
-
 }
 
 class Source {
@@ -37,7 +37,7 @@ class Source {
     this.category,
   });
 
-  factory Source.fromJson(Map<String, dynamic> json){
+  factory Source.fromJson(Map<String, dynamic> json) {
     return Source(
       id: json["id"],
       name: json["name"],

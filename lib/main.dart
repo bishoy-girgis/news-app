@@ -6,6 +6,7 @@ import 'package:news_app/shared_components/theme/my_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+
 void main() {
   runApp(
     ChangeNotifierProvider(
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       locale: Locale(settingsProvider.currentLocal),
       theme: MyTheme.LightTheme,
       debugShowCheckedModeBanner: false,
-      initialRoute: SplashScreen.routeName ,
+      initialRoute: SplashScreen.routeName,
       routes: {
         HomePage.routeName: (context) => HomePage(),
         SplashScreen.routeName: (context) => SplashScreen(),

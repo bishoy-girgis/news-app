@@ -39,8 +39,8 @@ class _CategoryViewState extends State<CategoryView> {
             );
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-             return const CircularProgressIndicator();
-           }
+            return const CircularProgressIndicator();
+          }
           return ListView.builder(
             itemBuilder: (context, index) => Text(
                 Source?.sources?[index].name ?? "",

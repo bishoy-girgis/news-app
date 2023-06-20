@@ -19,13 +19,13 @@ class ApiManager {
         query,
       ),
     );
-    var SourceDate =SourceModel.fromJson(jsonDecode(response.body));
+    var SourceDate = SourceModel.fromJson(jsonDecode(response.body));
     debugPrint(response.body);
-    if (response.statusCode == 200 && jsonDecode(response.body)["status"] == "ok") {
+    if (response.statusCode == 200 &&
+        jsonDecode(response.body)["status"] == "ok") {
       return SourceDate;
     } else {
       throw Exception("API request failed: ${response.statusCode}");
     }
-
   }
 }
