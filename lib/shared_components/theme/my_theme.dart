@@ -24,7 +24,7 @@ class MyTheme {
       bodyMedium: GoogleFonts.poppins(
           color: Colors.white, fontSize: 22, fontWeight: FontWeight.w600),
       bodySmall: GoogleFonts.exo(
-          color: Colors.black, fontSize: 14, fontWeight: FontWeight.normal),
+          color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
     ),
     drawerTheme: DrawerThemeData(
       
