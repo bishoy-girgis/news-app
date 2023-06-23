@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/model/category_model.dart';
+import 'package:news_app/pages/home/tabbar_listview.dart';
+import 'package:news_app/pages/home/widgets/tab_item.dart';
 import 'package:news_app/shared_components/network/api_manager.dart';
 
 import '../../model/source_model.dart';
@@ -26,29 +28,30 @@ class _CategoryViewState extends State<CategoryView> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: FutureBuilder<SourceModel>(
-        future: fetchSources,
-        builder: (context, snapshot) {
-          SourceModel? Source = snapshot.data;
-          if (snapshot.hasError) {
-            print("Error occurred: ${snapshot.error}");
-            return Text(
-              "Error occurred",
-              style: Theme.of(context).textTheme.bodySmall,
-            );
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          }
-          return ListView.builder(
-            itemBuilder: (context, index) => Text(
-                Source?.sources?[index].name ?? "",
-                style: Theme.of(context).textTheme.bodySmall),
-            itemCount: Source?.sources?.length ?? 0,
+    return FutureBuilder<SourceModel>(
+      future: fetchSources,
+      builder: (context, snapshot) {
+        SourceModel? Source = snapshot.data;
+        if (snapshot.hasError) {
+          return Column(
+            children: [
+              Text(
+                "Error occurred: ${snapshot.error}",
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              IconButton(
+                  onPressed: () {
+                    fetchSources;
+                  },
+                  icon: const Icon(Icons.refresh_outlined))
+            ],
           );
-        },
-      ),
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return TabBarListView(Source!);
+      },
     );
   }
 }

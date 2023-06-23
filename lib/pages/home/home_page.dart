@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
 
   CategoryModel? SelectedCategory;
   CategoryModel Setting = CategoryModel(
-      id: "", title: "Settings", backgroundColor: Colors.cyan, image: "");
+      id: "", title: "Settings", backgroundColor: Colors.transparent, image: "");
 
   clicked(CategoryModel categoryModel) {
     SelectedCategory = categoryModel;
