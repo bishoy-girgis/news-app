@@ -8,15 +8,15 @@ import '../../shared_components/theme/color.dart';
 
 class ArticlesListView extends StatelessWidget {
   String sourceId;
-
-  ArticlesListView(this.sourceId);
+  String query;
+  ArticlesListView(this.sourceId,this.query);
 
   late Future<ArticlesModel> fetchArticles;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<ArticlesModel>(
-      future: ApiManager.fetchArticles(sourceId),
+      future: ApiManager.fetchArticles(source: sourceId,q: query),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Column(

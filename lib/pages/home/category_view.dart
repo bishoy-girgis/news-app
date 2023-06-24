@@ -10,8 +10,8 @@ import '../../model/source_model.dart';
 
 class CategoryView extends StatefulWidget {
   CategoryModel SelectedCategory;
-
-  CategoryView({required this.SelectedCategory});
+  String? query;
+  CategoryView({required this.SelectedCategory,this.query});
 
   @override
   State<CategoryView> createState() => _CategoryViewState();
@@ -33,24 +33,27 @@ class _CategoryViewState extends State<CategoryView> {
       builder: (context, snapshot) {
         SourceModel? Source = snapshot.data;
         if (snapshot.hasError) {
-          return Column(
-            children: [
-              Text(
-                "Error occurred: ${snapshot.error}",
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              IconButton(
-                  onPressed: () {
-                    fetchSources;
-                  },
-                  icon: const Icon(Icons.refresh_outlined))
-            ],
+          return Center(
+            child: Column(
+              children: [
+                const SizedBox(height: 300,),
+                Text(
+                  "Error occurred: ${snapshot.error}",
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                IconButton(
+                    onPressed: () {
+                      fetchSources;
+                    },
+                    icon: const Icon(Icons.refresh_outlined))
+              ],
+            ),
           );
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
-        return TabBarListView(Source!);
+        return TabBarListView(Source!,widget.query!);
       },
     );
   }

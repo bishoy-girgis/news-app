@@ -31,10 +31,11 @@ class ApiManager {
     }
   }
 
-  static Future<ArticlesModel> fetchArticles(String source) async {
+  static Future<ArticlesModel> fetchArticles({String? source, String? q}) async {
     var query = {
       "apiKey": Constants.apiKey,
       "sources": source,
+      "q": q,
     };
     final response = await http.get(
       //Uri.parse("https://newsapi.org/v2/everything?apiKey=f25d0d8cbb5144e590264153ff87cf51&sources=bbc-news"),

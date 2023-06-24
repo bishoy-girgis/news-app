@@ -8,8 +8,8 @@ import '../../shared_components/theme/color.dart';
 
 class TabBarListView extends StatefulWidget {
   SourceModel sourceModel;
-
-  TabBarListView(this.sourceModel);
+String query;
+  TabBarListView(this.sourceModel,this.query);
 
   @override
   State<TabBarListView> createState() => _TabBarListViewState();
@@ -39,7 +39,7 @@ class _TabBarListViewState extends State<TabBarListView> {
               tabs: widget.sourceModel.sources?.map((e) => TabItem(e,selectedIndex==widget.sourceModel.sources?.indexOf(e))).toList() ?? [],
             ),
           ),
-         ArticlesListView(widget.sourceModel.sources?[selectedIndex].id ?? "",),
+         ArticlesListView(widget.sourceModel.sources?[selectedIndex].id ?? "",widget.query),
         ],
       ),
     )

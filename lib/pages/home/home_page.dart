@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/pages/home/category_view.dart';
+import 'package:news_app/pages/home/widgets/article_view_item.dart';
 import 'package:news_app/pages/home/widgets/drawer_widget.dart';
 import 'package:news_app/pages/home/widgets/gridview_item_widget.dart';
 import 'package:news_app/pages/setting/setting_page.dart';
-
+import 'package:news_app/shared_components/theme/color.dart';
+import '../../model/articles_model.dart';
 import '../../model/category_model.dart';
+import '../../shared_components/network/api_manager.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = "home page";
@@ -15,6 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool isSearch = false;
   List<CategoryModel> categoriesList = [
     CategoryModel(
       id: "sports",
@@ -53,6 +57,7 @@ class _HomePageState extends State<HomePage> {
       image: "assets/images/science_icon.png",
     ),
   ];
+    TextEditingController controller=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -65,23 +70,93 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            title: Text(
-                SelectedCategory == null
-                    ? "News App"
-                    : "${SelectedCategory?.title}",
-                style: Theme.of(context).textTheme.bodyMedium),
+            title: isSearch
+                ? TextField(
+                    controller: controller,
+                    style: Theme.of(context).textTheme.bodySmall,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        prefixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isSearch=false;
+                              controller.text="";
+
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.clear,
+                            color: primaryColor,
+                            size: 22,
+                          ),
+                        ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.search,
+                            color: primaryColor,
+                            size: 22,
+                          ),
+                        ),
+                        hintText: "Search Article ...",
+                        hintStyle: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(color: Colors.grey),
+                        fillColor: Colors.white,
+                        filled: true),
+                  )
+                : Text(
+                    SelectedCategory == null
+                        ? "News App"
+                        : "${SelectedCategory?.title}",
+                    style: Theme.of(context).textTheme.bodyMedium),
+            actions: !isSearch
+                ? SelectedCategory != null
+                    ? [
+                        IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isSearch=true;
+                              });
+                              // showSearch(
+                              //     context: context,
+                              //     delegate: NewsSearchDelegate());
+                            },
+                            icon: const Icon(
+                              Icons.search,
+                              color: Colors.white,
+                              size: 26,
+                            )),
+                        const SizedBox(
+                          width: 5,
+                        )
+                      ]
+                    : null
+                : null,
           ),
-          drawer: DrawerWidget(
-              SelectedCategory: SelectedCategory,
-              onCategoryPressed: categoryPreseed,
-              onSettingPressed: settingPressed),
+          drawer: isSearch
+              ? null
+              : DrawerWidget(
+                  SelectedCategory: SelectedCategory,
+                  onCategoryPressed: categoryPreseed,
+                  onSettingPressed: settingPressed),
           body: buildBody()),
     );
   }
 
   CategoryModel? SelectedCategory;
   CategoryModel Setting = CategoryModel(
-      id: "", title: "Settings", backgroundColor: Colors.transparent, image: "");
+      id: "",
+      title: "Settings",
+      backgroundColor: Colors.transparent,
+      image: "");
 
   clicked(CategoryModel categoryModel) {
     SelectedCategory = categoryModel;
@@ -144,7 +219,92 @@ class _HomePageState extends State<HomePage> {
     } else {
       return CategoryView(
         SelectedCategory: SelectedCategory!,
+        query: controller.text,
       );
     }
+  }
+}
+
+class NewsSearchDelegate extends SearchDelegate {
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+          onPressed: () {
+            query = "";
+          },
+          icon: const Icon(
+            Icons.clear,
+            color: primaryColor,
+            size: 20,
+          ))
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        Navigator.pop(context);
+      },
+      icon: const Icon(Icons.arrow_back),
+      color: primaryColor,
+      iconSize: 20,
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    print(query);
+    return FutureBuilder<ArticlesModel>(
+      future: ApiManager.fetchArticles(q: query),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Column(
+            children: [
+              Text(
+                "Error occurred: ${snapshot.error}",
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              IconButton(
+                  onPressed: () {}, icon: const Icon(Icons.refresh_outlined))
+            ],
+          );
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        var articlesList = snapshot.data?.articles ?? [];
+        return Container(
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              image: DecorationImage(
+                  image: AssetImage("assets/images/background_pattern.png"),
+                  fit: BoxFit.cover)),
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              return ArticleView(articlesList[index]);
+            },
+            itemCount: articlesList.length,
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          image: DecorationImage(
+              image: AssetImage("assets/images/background_pattern.png"),
+              fit: BoxFit.cover)),
+      child: Center(
+          child: Text(
+        "suggestions",
+        style: Theme.of(context).textTheme.headlineMedium,
+      )),
+    );
   }
 }
