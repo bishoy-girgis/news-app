@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/pages/details_screen/details_screen.dart';
+import 'package:news_app/pages/details_screen/web_view.dart';
 import 'package:news_app/pages/home/home_page.dart';
 import 'package:news_app/pages/splash_screen/splash_screen.dart';
 import 'package:news_app/provider/setting_provider.dart';
@@ -30,6 +32,8 @@ class MyApp extends StatelessWidget {
       routes: {
         HomePage.routeName: (context) => HomePage(),
         SplashScreen.routeName: (context) => SplashScreen(),
+        DetailsScreen.routeName:(context) => DetailsScreen(),
+        WebView.routeName:(context) => WebView(),
       },
     );
   }
