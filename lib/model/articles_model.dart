@@ -5,11 +5,13 @@
 class ArticlesModel {
   ArticlesModel({
       this.status, 
-      this.totalResults, 
+      this.totalResults,
+      this.message,
       this.articles,});
 
   ArticlesModel.fromJson(dynamic json) {
     status = json['status'];
+    message =json['message'];
     totalResults = json['totalResults'];
     if (json['articles'] != null) {
       articles = [];
@@ -20,6 +22,7 @@ class ArticlesModel {
   }
   String? status;
   int? totalResults;
+  String? message;
   List<Articles>? articles;
 
   Map<String, dynamic> toJson() {

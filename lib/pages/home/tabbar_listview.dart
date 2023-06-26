@@ -7,9 +7,10 @@ import 'package:news_app/pages/home/widgets/tab_item.dart';
 import '../../shared_components/theme/color.dart';
 
 class TabBarListView extends StatefulWidget {
-  SourceModel sourceModel;
+  //SourceModel sourceModel;
+  List<Source> sources;
 String query;
-  TabBarListView(this.sourceModel,this.query);
+  TabBarListView(this.sources,this.query);
 
   @override
   State<TabBarListView> createState() => _TabBarListViewState();
@@ -20,13 +21,13 @@ class _TabBarListViewState extends State<TabBarListView> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.sourceModel.sources?.isNotEmpty?? true ? Padding(
+    return widget.sources.isNotEmpty?? true ? Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
         children: [
           DefaultTabController(
             initialIndex: selectedIndex,
-            length: widget.sourceModel.sources?.length ?? 0,
+            length: widget.sources.length ?? 0,
             child: TabBar(
               labelPadding: const EdgeInsets.symmetric(horizontal: 7),
               indicator: const BoxDecoration(),
@@ -36,10 +37,10 @@ class _TabBarListViewState extends State<TabBarListView> {
                   selectedIndex=index;
                 });
               },
-              tabs: widget.sourceModel.sources?.map((e) => TabItem(e,selectedIndex==widget.sourceModel.sources?.indexOf(e))).toList() ?? [],
+              tabs: widget.sources.map((e) => TabItem(e,selectedIndex==widget.sources.indexOf(e))).toList() ?? [],
             ),
           ),
-         ArticlesListView(widget.sourceModel.sources?[selectedIndex].id ?? "",widget.query),
+         ArticlesListView(widget.sources[selectedIndex].id ?? "",widget.query),
         ],
       ),
     )
